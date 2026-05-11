@@ -1,5 +1,8 @@
 package hu.unideb.inf.broadcast;
 
+import android.content.BroadcastReceiver;
+import android.content.Intent;
+import android.content.IntentFilter;
 import android.os.Bundle;
 
 import androidx.activity.EdgeToEdge;
@@ -9,6 +12,8 @@ import androidx.core.view.ViewCompat;
 import androidx.core.view.WindowInsetsCompat;
 
 public class MainActivity extends AppCompatActivity {
+
+    private CustomReceiver customReceiver = new CustomReceiver();
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -20,5 +25,12 @@ public class MainActivity extends AppCompatActivity {
             v.setPadding(systemBars.left, systemBars.top, systemBars.right, systemBars.bottom);
             return insets;
         });
+
+        IntentFilter filter = new IntentFilter();
+        filter.addAction(Intent.ACTION_POWER_CONNECTED);
+        filter.addAction(Intent.ACTION_POWER_DISCONNECTED);
+
+        this.registerReceiver(customReceiver, filter, RECEIVER_EXPORTED);
+
     }
 }
